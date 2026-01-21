@@ -1,35 +1,24 @@
 import express from "express"
-import dotenv from "dotenv"
-import mongoose from "mongoose";
-
-
 const app = express();
+import authRoutes from "./routes/auth.routes.js"
+import todoRoutes from "./routes/todo.routes.js"
+import userRoutes from "./routes/user.routes.js"
+import errorHandler from "./middleware/error.middleware.js";
 
 // middlewares
 app.use(express.json());
 
-
-// Environment variables
-dotenv.config();
-const PORT = process.env.PORT || 5000;
-
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log("MongoDB connected successfully");
-}).catch((err) => {
-    console.error("MongoDB connection error:", err);
-});
-
+// Routes
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/todos", todoRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // Health check route 
 app.get("/health", (req,res) => {
     res.send("API is running...and server is healthy now!");
 });
 
-// Routes
-
+// Error handling middleware
+app.use(errorHandler);
 
 export default app;
