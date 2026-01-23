@@ -1,6 +1,6 @@
 import User from '../models/user.model.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { hashPassword, comparePassword } from '../utils/hash.js';
+import {generateToken, verifyToken} from '../utils/jwt.js';
 
 /* ---------------- REGISTER ---------------- */
 export const registerUser = async (req, res, next) => {
@@ -19,7 +19,7 @@ export const registerUser = async (req, res, next) => {
     }
 
     // 3. Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hashPassword(password, 10);
 
     // 4. Create user
     await User.create({
@@ -55,17 +55,13 @@ export const loginUser = async (req, res, next) => {
     }
 
     // 3. Compare password
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    const isPasswordMatch = await comparePassword(password, user.password);
     if (!isPasswordMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     // 4. Generate token
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    );
+    const token = generateToken({ id: user._id });
 
     res.status(200).json({
       message: 'Login successful',
