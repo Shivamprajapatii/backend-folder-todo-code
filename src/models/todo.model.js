@@ -4,15 +4,23 @@ const todoSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    },
-    completed: {
+  },
+  description: {
+    type: String,
+  },
+  completed: {
     type: Boolean,
     default: false,
-    },
-    createdAt: {
+  },
+  createdAt: {
     type: Date,
     default: Date.now,
-    },
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true, // 🔥 IMPORTANT
+  },
 });
 
 const Todo = mongoose.model("Todo", todoSchema);

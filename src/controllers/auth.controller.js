@@ -1,6 +1,6 @@
 import User from '../models/user.model.js';
 import { hashPassword, comparePassword } from '../utils/hash.js';
-import {generateToken, verifyToken} from '../utils/jwt.js';
+import { generateToken, verifyToken } from '../utils/jwt.js';
 
 /* ---------------- REGISTER ---------------- */
 export const registerUser = async (req, res, next) => {
