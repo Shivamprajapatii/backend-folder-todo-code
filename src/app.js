@@ -14,8 +14,16 @@ app.use("/api/v1/todos", todoRoutes);
 app.use("/api/v1/users", userRoutes);
 
 // Health check route 
-app.get("/health", (req,res) => {
+app.get("/health", (req, res) => {
     res.send("API is running...and server is healthy now!");
+});
+
+// ❌ 404 handler Page Not Found)
+app.use((req, res, next) => {
+    res.status(404).json({
+        success: false,
+        message: `Page not found: ${req.originalUrl}`,
+    });
 });
 
 // Error handling middleware
