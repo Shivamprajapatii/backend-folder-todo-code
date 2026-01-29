@@ -73,3 +73,24 @@ export const loginUser = async (req, res, next) => {
   }
 };
 
+/* ---------------- Logout ---------------- */
+
+export const logOut = async (req, res, next) => {
+  try {
+    if(!req.cookies.token){
+      return  res.status(400).json({
+        message: "No active session found"
+      });
+    }
+    // clear cookie
+    res.clearCookie("token");
+
+    // send success response
+    res.status(200).json({
+      message: "User logout successfully"
+    });
+
+  } catch (error) {
+    next(error);
+  }
+}
