@@ -62,6 +62,7 @@ export const loginUser = async (req, res, next) => {
 
     // 4. Generate token
     const token = generateToken({ id: user._id });
+    res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
 
     res.status(200).json({
       message: 'Login successful',

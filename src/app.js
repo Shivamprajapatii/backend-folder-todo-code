@@ -4,9 +4,11 @@ import authRoutes from "./routes/auth.routes.js"
 import todoRoutes from "./routes/todo.routes.js"
 import userRoutes from "./routes/user.routes.js"
 import errorHandler from "./middleware/error.middleware.js";
+import cookieParser from "cookie-parser";
 
 // middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
